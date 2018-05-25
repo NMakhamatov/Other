@@ -2,7 +2,7 @@ package ru.tsconsulting;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Empty2 {
+public class Combinations {
     public static void main(String[] args) {
         ArrayList<String> in = new ArrayList<>(4);
         in.add("a");
@@ -10,8 +10,8 @@ public class Empty2 {
         in.add("c");
         in.add("d");
         in.add("e");
-        Empty2 e = new Empty2();
-        ArrayList<String> list = (ArrayList<String>) e.method3(in);
+        Combinations combinations = new Combinations();
+        ArrayList<String> list = (ArrayList<String>) combinations.createCombinations(in);
         for (String s : list) {
             System.out.println(s);
         }
@@ -19,13 +19,13 @@ public class Empty2 {
 
     }
 
-    List<String> method3(ArrayList<String> in) {
+    List<String> createCombinations(ArrayList<String> in) {
         if (in.size() == 1) {
             return in;
         } else {
             String sym = in.get(in.size() - 1);
             in.remove(in.size() - 1);
-            ArrayList<String> out = (ArrayList<String>) method3(in);
+            ArrayList<String> out = (ArrayList<String>) createCombinations(in);
             int j = out.size();
             for (int i = 0; i < j; i++) {
                 out.add(out.get(i) + sym);
