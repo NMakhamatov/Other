@@ -6,53 +6,62 @@ import java.util.*;
 public class T {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Solution solution = new Solution();
-        ListNode listNode1 = new ListNode(5);
-        ListNode listNode2 = new ListNode(4);
 
-        listNode2.next = new ListNode(9);
+        ListNode listNode1 = new ListNode(1);
+        ListNode listNode2 = new ListNode(1);
+        solution.rec3(listNode1, 1111111111);
+        solution.rec3(listNode2, 1111111111);
 
-        solution.addTwoNumbers(listNode1, listNode2);
+
+        ListNode res = solution.addTwoNumbers(listNode1, listNode2);
+        solution.rec(res);
     }
 }
 
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
+        if (l1.next == null && l1.val == 0) return l2;
+        if (l2.next == null && l2.val == 0) return l1;
+        List<Integer> list1 = new LinkedList<>();
+        List<Integer> list2 = new LinkedList<>();
+        List<Integer> resList = new LinkedList<>();
 
         rec2(l1, list1);
         rec2(l2, list2);
 
-        int num1 = 0;
-        int num2 = 0;
+//        long num1= 0;
+//        long num2 = 0;
 
-        for (int i = 0; i < list1.size(); i++) {
-            num1 += list1.get(i)*(Math.pow(10,list1.size()-i-1));
-            num2 += list2.get(i)*(Math.pow(10,list1.size()-i-1));
+        int diff = Math.abs(list1.size() - list2.size());
+        if (list1.size() > list2.size()) {
+            for (int i = 0; i < diff; i++) {
+                list2.add(0, 0);
+            }
+        } else for (int i = 0; i < diff; i++) {
+            list1.add(0, 0);
         }
 
-        int result = num1 + num2;
 
-        ListNode res;
-        rec3(res,result)
-//        System.out.println(result);
-//        char[] chars = result.toCharArray();
-
-//        ListNode resultListNode = new ListNode(chars[chars.length - 1]);
-//        for (int i = chars.length - 2; i > 0; i--) {
-//            resultListNode = new ListNode(chars[i]);
-//            resultListNode.next = new ListNode(chars[i - 1]);
+//        for (int i = 0; i < list1.size(); i++) {
+//            num1 += (long) list1.get(i) * (Math.pow(10, list1.size() - i - 1));
+//        }
+//        for (int i = 0; i < list2.size(); i++) {
+//            num2 += (long) list2.get(i) * (Math.pow(10, list2.size() - i - 1));
 //        }
 
+//        long result = num1 + num2;
+
+//        ListNode res = new ListNode((int) (result % 10));
+//        rec3(res, result / 10);
         return null;
     }
 
 
-    void rec(ListNode listNode, StringBuilder stringBuilder) {
-        if (listNode.next == null) stringBuilder.append(Integer.toString(listNode.val));
+    void rec(ListNode listNode) {
+        if (listNode.next == null) System.out.print(listNode.val);
         else {
-            rec(listNode.next, stringBuilder);
-            stringBuilder.append(Integer.toString(listNode.val));
+            rec(listNode.next);
+            System.out.print(listNode.val);
         }
     }
 
@@ -63,11 +72,12 @@ class Solution {
             list.add(listNode.val);
         }
     }
-    void rec3(ListNode listNode,int i) {
-        if (i < 10) listNode.next = new ListNode(i%10) ;
+
+    void rec3(ListNode listNode, long i) {
+        if (i == 0) return;
+        if (i < 10) listNode.next = new ListNode((int) (i % 10));
         else {
-//            listNode = new ListNode(i%10);
-//            rec3(listNode.next,i%10);
+            rec3(listNode.next = new ListNode((int) (i % 10)), i / 10);
         }
     }
 }
